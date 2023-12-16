@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccesLog;
+use App\Models\AccessLog;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -78,8 +78,15 @@ class CustomerController extends Controller
       'monthCountList' => $monthCountList,
       'monthTimeList' => $monthTimeList,
       'dayCountList' => $dayCountList,
-      'dayTimeList' => $dayTimeList,
-      'log' => $logLastYear
+      'dayTimeList' => $dayTimeList
     ]);
   }
+
+  public function logtrack() {
+
+
+    return view('trackuser',[
+      'logall' => AccessLog::all(),
+    ]);
+  } 
 }

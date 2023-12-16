@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\CustomerController;
-use App\Livewire\Counter;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +16,9 @@ use App\Livewire\Counter;
 */
 
 Route::get('/', [CustomerController::class,'controller']);
+Route::get('/trackuser', [CustomerController::class,'logtrack']);
+// Route::get('/tracklog',function(){
+//   return view('tracklog');
+// }); 
+
+// Route::resource('accesslog',AccessLogController::class);
