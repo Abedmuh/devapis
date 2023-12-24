@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TrackLog;
+use App\Http\Controllers\TrackLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +18,6 @@ use App\Http\Controllers\CustomerController;
 */
 
 Route::get('/', [CustomerController::class,'controller']);
-Route::get('/trackuser', [CustomerController::class,'logtrack']);
-// Route::get('/tracklog',function(){
-//   return view('tracklog');
-// }); 
-
-// Route::resource('accesslog',AccessLogController::class);
+Route::get('/tracklog',[TrackLogController::class,'index2']);
+Route::get('/tracklog/log', [TrackLogController::class,'showAll'])->name('trackloging');
+Route::get('/tracklog/loglist', [TrackLogController::class,'showChart'])->name('tracklog');

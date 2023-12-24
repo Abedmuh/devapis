@@ -13,7 +13,8 @@ class AccessLogController extends Controller
      */
     public function index()
     {
-        //
+        $data = AccessLog::all();
+        return ;
     }
 
     /**

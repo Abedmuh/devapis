@@ -14,14 +14,14 @@
   </div>
 
   <div class="dropdown col-md-4 ms-auto text-end">
-    <button class="btn btn-light btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-      aria-expanded="false">
+    <button id="filterButton" class="btn btn-light btn-secondary dropdown-toggle" type="button"
+      data-bs-toggle="dropdown" aria-expanded="false">
       Filter
     </button>
     <ul class="dropdown-menu">
-      <li id="todayall" class="todayalljq"><a class="dropdown-item" href="#">Today</a></li>
-      <li id="monthall" class="monthalljq"><a class="dropdown-item" href="#">Last Month</a></li>
-      <li id="yearall" class="yearalljq"><a class="dropdown-item" href="#">Last Year</a></li>
+      <li id="todayall"><a class="dropdown-item" href="#">Today</a></li>
+      <li id="monthAll"><a class="dropdown-item" href="#">Last Month</a></li>
+      <li id="yearall"><a class="dropdown-item" href="#">Last Year</a></li>
     </ul>
   </div>
 </div>
@@ -43,8 +43,8 @@
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
               <i class="ri-upload-cloud-2-line"></i>
             </div>
-            <div class="ps-3" id="countApi">
-              <h6>{{ $logYear->count() }}</h6>
+            <div class="ps-3">
+              <h6 id="countApi">{{ $logYear->count() }}</h6>
             </div>
           </div>
         </div>
@@ -61,10 +61,10 @@
 
           <div class="d-flex align-items-center">
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-currency-dollar"></i>
+              <i class="ri-code-s-line"></i>
             </div>
-            <div class="ps-3" id="countNull">
-              <h6>{{ $logYear->where('code',null)->count() }}</h6>
+            <div class="ps-3">
+              <h6 id="countNull">{{ $logYear->where('code',null)->count() }}</h6>
             </div>
           </div>
         </div>
@@ -83,8 +83,8 @@
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
               <i class="bi bi-people"></i>
             </div>
-            <div class="ps-3" id="countSuccess">
-              <h6>{{ $logYear->where('code',200)->count() }}</h6>
+            <div class="ps-3">
+              <h6 id="countSuccess">{{ $logYear->where('code',200)->count() }}</h6>
             </div>
           </div>
         </div>
@@ -107,62 +107,165 @@
 </section>
 
 <script>
-  $('yearall')
+  $('#todayall').click(function (e) { 
+    $('#filterButton').html('By Today');
+    $('#countApi').html( {{ Js::from($logDay->count()) }} );
+    $('#countNull').html( {{ Js::from($logDay->where('code',null)->count()) }} );
+    $('#countSuccess').html( {{ Js::from($logDay->where('code',200)->count()) }} );
+    $('#topService').html('');
+    $('#topUser').html('');
+    new ApexCharts(document.querySelector("#topService"), {
+      series: [{
+        data: {{ Js::from($dayServiceCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($dayServicelist) }},
+      }
+    }).render();
+
+    new ApexCharts(document.querySelector("#topUser"), {
+      series: [{
+        data: {{ Js::from($dayUserCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($dayUserlist) }},
+      }
+    }).render();
+  });
+
+  $('#monthAll').click(function (e) { 
+    e.preventDefault();
+    $('#filterButton').html('By Month');
+    $('#countApi').html( {{ Js::from($logMonth->count()) }} );
+    $('#countNull').html( {{ Js::from($logMonth->where('code',null)->count()) }} );
+    $('#countSuccess').html( {{ Js::from($logMonth->where('code',200)->count()) }} );
+    $('#topService').html('');
+    $('#topUser').html('');
+    new ApexCharts(document.querySelector("#topService"), {
+      series: [{
+        data: {{ Js::from($monthServiceCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($monthServicelist) }},
+      }
+    }).render();
+
+    new ApexCharts(document.querySelector("#topUser"), {     
+      series: [{
+        data: {{ Js::from($monthUserCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($monthUserlist) }},
+      }
+    }).render();
+  });
+  
+  $('#yearall').click(function (e) { 
+    e.preventDefault();
+    $('#filterButton').html('By Year');
+    $('#countApi').html( {{ Js::from($logYear->count()) }} );
+    $('#countNull').html( {{ Js::from($logYear->where('code',null)->count()) }} );
+    $('#countSuccess').html( {{ Js::from($logYear->where('code',200)->count()) }} );
+    $('#topService').html('');
+    $('#topUser').html('');
+    new ApexCharts(document.querySelector("#topService"), {
+      series: [{
+        data: {{ Js::from($yearServiceCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($yearServicelist) }},
+      }
+    }).render();
+
+    new ApexCharts(document.querySelector("#topUser"), {
+      series: [{
+        data: {{ Js::from($yearUserCount) }}
+      }],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: {{ Js::from($yearUserlist) }},
+      }
+    }).render();
+    
+  });
 </script>
-<script>
-  const countApi = document.getElementById('countApi')
-  const countNull = document.getElementById('countNull')
-  const countSuccess = document.getElementById('countSuccess')
 
-  const todayAll = document.getElementById('todayall')
-  const monthAll = document.getElementById('monthall')
-  const yearAll = document.getElementById('yearall')
-
-  const apicallCard = document.createElement('h6');
-  const nullCard = document.createElement('h6');
-  const successCard = document.createElement('h6');
-
-  function emptyStuff() {
-    countApi.innerHTML = '';
-    countNull.innerHTML = '';
-    countSuccess.innerHTML = '';
-  }
-
-  function fillStuff() {
-    countApi.append(apicallCard)
-    countNull.append(nullCard)
-    countSuccess.append(successCard)
-  }
-
-  todayAll.addEventListener('click', function (event) {
-    emptyStuff();
-
-    apicallCard.innerText = {{ Js::from($logDay->count()) }};
-    nullCard.innerText = {{ Js::from($logDay->where('code',null)->count()) }}; 
-    successCard.innerText = {{ Js::from($logDay->where('code',200)->count()) }};    
-
-    fillStuff();
-  });
-
-  monthAll.addEventListener('click', function (event) {
-    emptyStuff();
-
-    apicallCard.innerText = {{ Js::from($logMonth->count()) }};  
-    nullCard.innerText = {{ Js::from($logMonth->where('code',null)->count()) }}; 
-    successCard.innerText = {{ Js::from($logMonth->where('code',200)->count()) }};  
-
-    fillStuff();
-  });
-
-  yearAll.addEventListener('click', function (event) {
-    emptyStuff();
-
-    apicallCard.innerText = {{ Js::from($logYear->count()) }};  
-    nullCard.innerText = {{ Js::from($logYear->where('code',null)->count()) }};  
-    successCard.innerText = {{ Js::from($logYear->where('code',200)->count()) }};  
-
-    fillStuff();
-  });
-</script>
 <!-- End Page Title -->
 @endsection

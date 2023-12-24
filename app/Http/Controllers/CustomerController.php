@@ -81,12 +81,4 @@ class CustomerController extends Controller
       'dayTimeList' => $dayTimeList
     ]);
   }
-
-  public function logtrack() {
-
-
-    return view('trackuser',[
-      'logall' => AccessLog::all(),
-    ]);
-  } 
 }
