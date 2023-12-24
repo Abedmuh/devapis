@@ -99,6 +99,8 @@
   </div>
 
   <script>
+    let kategori = '';
+    let alterkategori = '';
     function showChart(response) {
       $('#barChart').html('');
       new ApexCharts(document.querySelector("#barChart"), {
@@ -123,12 +125,20 @@
         }
       }).render();
     }
-    function showTable(response) {
+    function showTable() {
       $('#myTable').DataTable({
         processing:true,
         serverside:true,
         responsive: true,
-        ajax: "http://127.0.0.1:8000/tracklog/log",
+        ajax: {
+          url : "http://127.0.0.1:8000/tracklog/log",
+          type : "GET",
+          data : function (d) {
+              d.kunci = $('#kunci').val(),
+              d.kategori = kategori,
+              d.alterkategori = alterkategori
+          }
+        },
         columns: [{
           data: 'id',
           name: 'Id'
@@ -156,8 +166,6 @@
     });
     $('#cari').click(function (e) { 
       e.preventDefault();
-      let kategori = '';
-      let alterkategori = '';
       if($('#kategori1').is(':checked')) {
         kategori = $('#kategori1').val();
         alterkategori = $('#kategori2').val();
@@ -167,7 +175,7 @@
         alterkategori = $('#kategori1').val();
       }
       $.ajax({
-        url: "http://127.0.0.1:8000/tracklog/loglist",
+        url:"{{ route('track.chart') }}",
         dataType: "json",
         data: {
           kunci: $('#kunci').val(),
@@ -179,6 +187,7 @@
         },
         success: function (response) {
           showChart(response)
+          $('#myTable').DataTable().ajax.reload();
         }
       });
     });

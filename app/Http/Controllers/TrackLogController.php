@@ -45,10 +45,6 @@ class TrackLogController extends Controller
 
     // chart table show
     public function showChart(Request $request) {
-      $data = [
-        'kunci' => $request->kunci,
-        'kategori' => $request->kategori
-      ];
       $logAll = AccessLog::all();
       $logtable = $logAll->where($request->kategori, 'like', $request->kunci);
       $loglist = $logtable->groupBy($request->alterkategori)->sortDesc()->keys()->take(10)->toArray();
@@ -72,10 +68,16 @@ class TrackLogController extends Controller
     }
 
 
-    public function showAll()
+    public function showTable(Request $request)
     {
-      $data = AccessLog::all()->take(100);
-      return DataTables::of($data)->make(true);
+      $logAll = AccessLog::all()->take(100);
+      if ($request->kunci == ''){
+        $logtable = $logAll;
+      } else {
+        $logtable = $logAll->where($request->kategori, 'like', $request->kunci);
+      }
+      
+      return DataTables::of($logtable)->make(true);
     }
 
     // chart on tracklog

@@ -19,5 +19,5 @@ use App\Http\Controllers\TrackLogController;
 
 Route::get('/', [CustomerController::class,'controller']);
 Route::get('/tracklog',[TrackLogController::class,'index2']);
-Route::get('/tracklog/log', [TrackLogController::class,'showAll'])->name('trackloging');
-Route::get('/tracklog/loglist', [TrackLogController::class,'showChart'])->name('tracklog');
+Route::get('/tracklog/log', [TrackLogController::class,'showTable'])->name('track.table');
+Route::get('/tracklog/logchart', [TrackLogController::class,'showChart'])->name('track.chart');
