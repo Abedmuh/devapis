@@ -23,13 +23,13 @@
           <form action="/tracklog">
             <div class="row">
               <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-2 col-form-label">Kata Kunci</label>
+                <label for="search" class="col-sm-2 col-form-label">Kata Kunci</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" placeholder="Cari" name="search" id="kunci">
                 </div>
               </div>
               <fieldset class="row mb-3">
-                <legend class="col-form-label col-sm-2 pt-0">Kategori</legend>
+                <legend for="kategori" class="col-form-label col-sm-2 pt-0">Kategori</legend>
                 <div class="col-sm-10">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="kategori" id="kategori1" value="route" checked>
@@ -61,12 +61,11 @@
     <div class="col-lg-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">User Terbanyak</h5>
+          <h5 class="card-title">Akses Terbanyak</h5>
           {{-- Table --}}
-          <div id="barChart"></div>
-          @if (request('search') == null)
-          <p>No post Here</p>
-          @endif
+          <div id="barChart">
+            <p>No post Here</p>
+          </div>
           {{-- End Table --}}
         </div>
       </div>
@@ -101,9 +100,10 @@
 
   <script>
     function showChart(response) {
+      $('#barChart').html('');
       new ApexCharts(document.querySelector("#barChart"), {
         series: [{
-          data: dataCount,
+          data: response.value,
         }],
         chart: {
           type: 'bar',
@@ -119,14 +119,15 @@
           enabled: false
         },
         xaxis: {
-          categories: dataList,
+          categories: response.list,
         }
       }).render();
     }
-    function showTable() {
+    function showTable(response) {
       $('#myTable').DataTable({
         processing:true,
         serverside:true,
+        responsive: true,
         ajax: "http://127.0.0.1:8000/tracklog/log",
         columns: [{
           data: 'id',
@@ -155,11 +156,29 @@
     });
     $('#cari').click(function (e) { 
       e.preventDefault();
+      let kategori = '';
+      let alterkategori = '';
+      if($('#kategori1').is(':checked')) {
+        kategori = $('#kategori1').val();
+        alterkategori = $('#kategori2').val();
+      }
+      if($('#kategori2').is(':checked')) {
+        kategori = $('#kategori2').val();
+        alterkategori = $('#kategori1').val();
+      }
       $.ajax({
         url: "http://127.0.0.1:8000/tracklog/loglist",
         dataType: "json",
+        data: {
+          kunci: $('#kunci').val(),
+          kategori: kategori,
+          alterkategori: alterkategori
+        },
+        error: function (response, error) {
+          alert(" Can't do because: " + error);
+        },
         success: function (response) {
-          console.log(response);
+          showChart(response)
         }
       });
     });

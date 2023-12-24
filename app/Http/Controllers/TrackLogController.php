@@ -44,8 +44,23 @@ class TrackLogController extends Controller
     }
 
     // chart table show
-    public function showChart() {
-      return response()->json('data');
+    public function showChart(Request $request) {
+      $data = [
+        'kunci' => $request->kunci,
+        'kategori' => $request->kategori
+      ];
+      $logAll = AccessLog::all();
+      $logtable = $logAll->where($request->kategori, 'like', $request->kunci);
+      $loglist = $logtable->groupBy($request->alterkategori)->sortDesc()->keys()->take(10)->toArray();
+      $loglistcount = array();
+      foreach ($logtable->groupBy($request->alterkategori)->sortDesc()->take(10)->toArray() as $value) {
+        array_push($loglistcount,count($value));
+      }
+      $databalik = [
+        'list' => $loglist,
+        'value' => $loglistcount
+      ];
+      return response()->json($databalik);
     }
     /**
      * Display the specified resource.
