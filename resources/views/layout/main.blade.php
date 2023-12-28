@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>Dashboard API Ditjen Nakes</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -57,33 +57,11 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="#" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="" />
-        <span class="d-none d-lg-block">NiceAdmin</span>
+        <span class="d-none d-lg-block">Nakes</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
     <!-- End Logo -->
-
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
-        <button type="submit" title="Search">
-          <i class="bi bi-search"></i>
-        </button>
-      </form>
-    </div>
-    <!-- End Search Bar -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle" href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
-        <!-- End Search Icon-->
-      </ul>
-    </nav>
-    <!-- End Icons Navigation -->
   </header>
   <!-- End Header -->
 
@@ -100,19 +78,11 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/tracklog">
-          <i class="bi bi-person"></i>
-          <span>User Record</span>
+          <i class="bi bi-search"></i>
+          <span>Record Search</span>
         </a>
       </li>
       <!-- End Top User Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="ri-route-line"></i>
-          <span>Services Record</span>
-        </a>
-      </li>
-      <!-- End Top Service Nav -->
     </ul>
   </aside>
   <!-- End Sidebar-->
@@ -126,16 +96,7 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
+
   </footer>
   <!-- End Footer -->
 

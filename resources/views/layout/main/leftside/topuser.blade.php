@@ -3,36 +3,16 @@
 
     <div class="card-body">
       <h5 class="card-title">Pengguna Terbanyak</h5>
-
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-info load-scrn load-scrn-top my-5" style="width: 70px; height: 70px;"
+          role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <!-- Bar Chart -->
-      <div id="topUser"></div>
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          
-          new ApexCharts(document.querySelector("#topUser"), {
-            
-            series: [{
-              data: {{ Js::from($yearUserCount) }}
-            }],
-            chart: {
-              type: 'bar',
-              height: 350
-            },
-            plotOptions: {
-              bar: {
-                borderRadius: 4,
-                horizontal: true,
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            xaxis: {
-              categories: {{ Js::from($yearUserlist) }},
-            }
-          }).render();
-        });
-      </script>
+      <div id="topUser" class="chart-dash">
+      </div>
+
       <!-- End Bar Chart -->
 
     </div>

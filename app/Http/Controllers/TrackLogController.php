@@ -13,33 +13,6 @@ class TrackLogController extends Controller
      */
     public function index()
     {
-      $logAll = AccessLog::all();
-      if (request('search')) {
-        $logtable = $logAll->where(request('kategori'), 'like', request('search'));
-        $loglist = $logtable->groupBy('username')->sortDesc()->keys()->take(10)->toArray();
-        $loglistcount = array();
-        foreach ($logtable->groupBy('username')->sortDesc()->take(10)->toArray() as $value) {
-          array_push($loglistcount,count($value));
-        }
-      } else {
-        $logtable = $logAll;
-        $loglist = $logAll->groupBy('route')->sortDesc()->keys()->take(10)->toArray();
-        $loglistcount = array();
-        foreach ($logAll->where('route', '!=', 'login_ws')->groupBy('route')->sortDesc()->take(10)->toArray() as $value) {
-          array_push($loglistcount,count($value));
-        }
-      }
-      
-      return view('tracklog',[
-        'logtable' => $logtable,
-        'loglist' => $loglist,
-        'loglistcount' => $loglistcount
-      ]);
-    }
-    
-    // showing the tracklog route
-    public function index2()
-    {
       return view('tracklog');
     }
 
@@ -58,19 +31,10 @@ class TrackLogController extends Controller
       ];
       return response()->json($databalik);
     }
-    /**
-     * Display the specified resource.
-     */
-    public function allLog()
-    {
-      $data = AccessLog::all();
-      return response()->json($data);
-    }
-
 
     public function showTable(Request $request)
     {
-      $logAll = AccessLog::all()->take(100);
+      $logAll = AccessLog::all()->take(10000);
       if ($request->kunci == ''){
         $logtable = $logAll;
       } else {
@@ -79,12 +43,4 @@ class TrackLogController extends Controller
       
       return DataTables::of($logtable)->make(true);
     }
-
-    // chart on tracklog
-    public function showfew()
-    {
-      $data = AccessLog::all()->take(100);
-      return response()->json($data);
-    }
-    
 }

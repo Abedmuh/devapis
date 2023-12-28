@@ -64,7 +64,15 @@
           <h5 class="card-title">Akses Terbanyak</h5>
           {{-- Table --}}
           <div id="barChart">
-            <p>No post Here</p>
+            <div class="d-flex justify-content-center">
+              <div class="spinner-border text-info" style="width: 70px; height: 70px; display:none" role="status"
+                id="loading">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center" style="margin: 4rem 1rem" id="text-pencarian">
+              <p>Pencarian kosong</p>
+            </div>
           </div>
           {{-- End Table --}}
         </div>
@@ -131,7 +139,7 @@
         serverside:true,
         responsive: true,
         ajax: {
-          url : "http://127.0.0.1:8000/tracklog/log",
+          url : "{{ route('track.table') }}",
           type : "GET",
           data : function (d) {
               d.kunci = $('#kunci').val(),
@@ -166,6 +174,8 @@
     });
     $('#cari').click(function (e) { 
       e.preventDefault();
+      $('#loading').show();
+      $('#text-pencarian').html('');
       if($('#kategori1').is(':checked')) {
         kategori = $('#kategori1').val();
         alterkategori = $('#kategori2').val();
@@ -174,6 +184,7 @@
         kategori = $('#kategori2').val();
         alterkategori = $('#kategori1').val();
       }
+      $('#myTable').DataTable().ajax.reload();
       $.ajax({
         url:"{{ route('track.chart') }}",
         dataType: "json",
@@ -182,12 +193,11 @@
           kategori: kategori,
           alterkategori: alterkategori
         },
-        error: function (response, error) {
+        error: function (request, error) {
           alert(" Can't do because: " + error);
         },
         success: function (response) {
           showChart(response)
-          $('#myTable').DataTable().ajax.reload();
         }
       });
     });

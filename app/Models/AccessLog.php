@@ -10,6 +10,7 @@ class AccessLog extends Model
 {
     use HasFactory;
     protected $table = 'access_log';
+    public $timestamps = false;
 
     public function scopeFilter($query, Request $filters) {
       if ($filters['search']) {

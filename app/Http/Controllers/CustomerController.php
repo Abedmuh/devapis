@@ -37,13 +37,10 @@ class CustomerController extends Controller
     $monthtimestamp = $logLastYear->groupBy(function($date) {
       return Carbon::parse($date->timestamp)->format('y-m-d');
     })->reverse()->take(24);
+    
     $daytimestamp = $logLastYear->groupBy(function($date) {
       return Carbon::parse($date->timestamp)->format('y-m-d H');
     })->reverse()->take(24);
-
-    $yearTimeList = $yeartimestamp->keys()->toArray();
-    $monthTimeList = $monthtimestamp->keys()->toArray();
-    $dayTimeList = $daytimestamp->keys()->toArray();
 
     function filter($counts) {
       $countList = array();
@@ -53,6 +50,10 @@ class CustomerController extends Controller
     return $countList;
     }
 
+    $yearTimeList = $yeartimestamp->keys()->toArray();
+    $monthTimeList = $monthtimestamp->keys()->toArray();
+    $dayTimeList = $daytimestamp->keys()->toArray();
+
     $yearCountList = filter($yeartimestamp);
     $monthCountList = filter($monthtimestamp);
     $dayCountList = filter($daytimestamp);
@@ -61,22 +62,29 @@ class CustomerController extends Controller
       'yearUserCount' => userCountList($logLastYear,'username'),
       'monthUserCount' => userCountList($logLastMonth,'username'),
       'dayUserCount' => userCountList($logLastDay,'username'),
+
       'yearUserlist' => userList($logLastYear,'username'),
       'monthUserlist' => userList($logLastMonth,'username'),
       'dayUserlist' => userList($logLastDay,'username'),
+
       'yearServiceCount' => userCountList($logLastYear,'route'),
       'monthServiceCount' => userCountList($logLastMonth,'route'),
       'dayServiceCount' => userCountList($logLastDay,'route'),
+
       'yearServicelist' => userList($logLastYear,'route'),
       'monthServicelist' => userList($logLastMonth,'route'),
       'dayServicelist' => userList($logLastDay,'route'),
+      
       'logYear' => $logLastYear,
       'logMonth' => $logLastMonth,
       'logDay' => $logLastDay,
+
       'yearCountList' => $yearCountList,
       'yearTimeList' => $yearTimeList,
+
       'monthCountList' => $monthCountList,
       'monthTimeList' => $monthTimeList,
+      
       'dayCountList' => $dayCountList,
       'dayTimeList' => $dayTimeList
     ]);

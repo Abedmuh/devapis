@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AccessLog;
 use Illuminate\Database\Seeder;
 
 class AccessLogSeeder extends Seeder
@@ -12,6 +12,6 @@ class AccessLogSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+     AccessLog::factory(3600)->create();
     }
 }

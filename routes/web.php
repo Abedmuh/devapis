@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\TrackLog;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TrackLogController;
 
 /*
@@ -17,7 +16,12 @@ use App\Http\Controllers\TrackLogController;
 |
 */
 
-Route::get('/', [CustomerController::class,'controller']);
-Route::get('/tracklog',[TrackLogController::class,'index2']);
-Route::get('/tracklog/log', [TrackLogController::class,'showTable'])->name('track.table');
+Route::get('/', [DashboardController::class,'index']);
+Route::get('/logcount', [DashboardController::class,'logcount'])->name('dash.count');
+Route::get('/logtime', [DashboardController::class,'logtime'])->name('dash.time');
+Route::get('/logaccess', [DashboardController::class,'logaccess'])->name('dash.access');
+
+// track log
+Route::get('/tracklog',[TrackLogController::class,'index']);
+Route::get('/tracklog/logtable', [TrackLogController::class,'showTable'])->name('track.table');
 Route::get('/tracklog/logchart', [TrackLogController::class,'showChart'])->name('track.chart');
